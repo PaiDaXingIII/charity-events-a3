@@ -1,0 +1,100 @@
+<!-- Registration Page View - Register for an event -->
+
+<!-- Loading Indicator -->
+<div ng-if="loading" class="loading">
+  <p>Loading event information...</p>
+</div>
+
+<!-- Error Message -->
+<div ng-if="error" class="error-message">
+  <p>{{error}}</p>
+</div>
+
+<!-- Registration Form -->
+<div ng-if="!loading && !error && event" class="registration-page">
+  <h1>Register for Event</h1>
+
+  <!-- Event Summary -->
+  <div class="event-summary">
+    <h2>{{event.event_name}}</h2>
+    <p><strong>Date:</strong> {{formatDate(event.event_date)}}</p>
+    <p><strong>Location:</strong> {{event.event_location}}</p>
+    <p><strong>Ticket Price:</strong> {{formatCurrency(event.ticket_price)}} per ticket</p>
+    <p><strong>Category:</strong> {{event.category_name}}</p>
+  </div>
+
+  <!-- Success Message -->
+  <div ng-if="success" class="success-message">
+    <h3>✓ Registration Successful!</h3>
+    <p>Thank you for registering. You will be redirected to the event details page shortly...</p>
+  </div>
+
+  <!-- Registration Form -->
+  <form ng-if="!success" name="registrationForm" ng-submit="submitRegistration()" class="registration-form">
+    <h3>Your Information</h3>
+
+    <div class="form-group">
+      <label for="user_name">Full Name *</label>
+      <input 
+        type="text" 
+        id="user_name" 
+        ng-model="registration.user_name" 
+        class="form-control"
+        placeholder="Enter your full name"
+        required>
+    </div>
+
+    <div class="form-group">
+      <label for="user_email">Email Address *</label>
+      <input 
+        type="email" 
+        id="user_email" 
+        ng-model="registration.user_email" 
+        class="form-control"
+        placeholder="your.email@example.com"
+        required>
+    </div>
+
+    <div class="form-group">
+      <label for="user_phone">Phone Number *</label>
+      <input 
+        type="tel" 
+        id="user_phone" 
+        ng-model="registration.user_phone" 
+        class="form-control"
+        placeholder="+61-XXX-XXX-XXX"
+        required>
+    </div>
+
+    <div class="form-group">
+      <label for="tickets_purchased">Number of Tickets *</label>
+      <input 
+        type="number" 
+        id="tickets_purchased" 
+        ng-model="registration.tickets_purchased" 
+        class="form-control"
+        min="1"
+        max="10"
+        required>
+      <small>Maximum 10 tickets per registration</small>
+    </div>
+
+    <!-- Total Cost -->
+    <div class="total-cost">
+      <h3>Total Cost: {{formatCurrency(totalCost)}}</h3>
+    </div>
+
+    <!-- Form Buttons -->
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary btn-large" ng-disabled="submitting">
+        <span ng-if="!submitting">Complete Registration</span>
+        <span ng-if="submitting">Submitting...</span>
+      </button>
+      <a href="#!/event/{{eventId}}" class="btn btn-secondary">Cancel</a>
+    </div>
+
+    <p class="form-note">* Required fields</p>
+  </form>
+</div>
+
+

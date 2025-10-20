@@ -1,0 +1,183 @@
+<!-- Event Edit View - Edit existing event -->
+<div class="admin-header">
+  <h1>Edit Event</h1>
+</div>
+
+<!-- Loading Indicator -->
+<div ng-if="loading" class="loading">
+  <p>Loading event details...</p>
+</div>
+
+<!-- Error Message -->
+<div ng-if="error" class="error-message">
+  <p>{{error}}</p>
+</div>
+
+<!-- Edit Event Form -->
+<div ng-if="!loading && !error && event" class="event-form-container">
+  
+  <!-- Event Registrations Summary -->
+  <div class="registrations-summary">
+    <h3>📋 Event Registrations ({{registrations.length}})</h3>
+    <div ng-if="registrations.length === 0" class="no-data">
+      <p>No registrations for this event yet</p>
+    </div>
+    <div ng-if="registrations.length > 0" class="registrations-mini-list">
+      <div ng-repeat="reg in registrations | limitTo:5" class="registration-mini-item">
+        <strong>{{reg.user_name}}</strong> - {{reg.tickets_purchased}} ticket(s) - 
+        <small>{{formatDate(reg.registration_date)}}</small>
+      </div>
+      <p ng-if="registrations.length > 5" class="more-registrations">
+        ... and {{registrations.length - 5}} more registration(s)
+      </p>
+    </div>
+  </div>
+
+  <!-- Edit Form -->
+  <form name="editForm" ng-submit="updateEvent()" class="event-form">
+    
+    <div class="form-section">
+      <h3>Basic Information</h3>
+      
+      <div class="form-group">
+        <label>Event ID</label>
+        <input type="text" value="{{event.event_id}}" class="form-control" disabled>
+      </div>
+
+      <div class="form-group">
+        <label for="event_name">Event Name *</label>
+        <input 
+          type="text" 
+          id="event_name" 
+          ng-model="event.event_name" 
+          class="form-control"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="event_description">Event Description</label>
+        <textarea 
+          id="event_description" 
+          ng-model="event.event_description" 
+          class="form-control"
+          rows="4"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="event_date">Event Date & Time *</label>
+          <input 
+            type="datetime-local" 
+            id="event_date" 
+            ng-model="event.event_date_local" 
+            class="form-control"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label for="category_id">Category *</label>
+          <select 
+            id="category_id" 
+            ng-model="event.category_id" 
+            ng-options="category.category_id as category.category_name for category in categories"
+            class="form-control"
+            required>
+            <option value="">-- Select Category --</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="event_location">Event Location *</label>
+        <input 
+          type="text" 
+          id="event_location" 
+          ng-model="event.event_location" 
+          class="form-control"
+          required>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3>Financial Details</h3>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="ticket_price">Ticket Price ($)</label>
+          <input 
+            type="number" 
+            id="ticket_price" 
+            ng-model="event.ticket_price" 
+            class="form-control"
+            min="0"
+            step="0.01">
+        </div>
+
+        <div class="form-group">
+          <label for="fund_target">Fund Target ($) *</label>
+          <input 
+            type="number" 
+            id="fund_target" 
+            ng-model="event.fund_target" 
+            class="form-control"
+            min="1"
+            step="0.01"
+            required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="current_fund">Current Funds Raised ($)</label>
+        <input 
+          type="number" 
+          id="current_fund" 
+          ng-model="event.current_fund" 
+          class="form-control"
+          min="0"
+          step="0.01">
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3>Additional Settings</h3>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="organization_id">Organization ID *</label>
+          <input 
+            type="number" 
+            id="organization_id" 
+            ng-model="event.organization_id" 
+            class="form-control"
+            min="1"
+            required>
+        </div>
+
+        <div class="form-group checkbox-group">
+          <label>
+            <input 
+              type="checkbox" 
+              ng-model="event.is_active"
+              ng-true-value="true"
+              ng-false-value="false">
+            Event is Active
+          </label>
+          <small>Inactive events won't appear on the client website</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary btn-large" ng-disabled="submitting">
+        <span ng-if="!submitting">Update Event</span>
+        <span ng-if="submitting">Updating...</span>
+      </button>
+      <button type="button" ng-click="cancel()" class="btn btn-secondary">Cancel</button>
+    </div>
+
+    <p class="form-note">* Required fields</p>
+  </form>
+</div>
+
+

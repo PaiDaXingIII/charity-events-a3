@@ -1,0 +1,71 @@
+<!-- Event List View - Display and manage all events -->
+<div class="admin-header">
+  <h1>Event Management</h1>
+  <a href="#!/create" class="btn btn-primary">+ Create New Event</a>
+</div>
+
+<!-- Status Filter -->
+<div class="filter-section">
+  <label>Filter by Status:</label>
+  <select ng-model="filterStatus" class="filter-select">
+    <option value="all">All Events</option>
+    <option value="active">Active Events</option>
+    <option value="past">Past Events</option>
+    <option value="suspended">Suspended Events</option>
+  </select>
+  <span class="event-count">Showing {{filteredEvents().length}} of {{events.length}} events</span>
+</div>
+
+<!-- Loading Indicator -->
+<div ng-if="loading" class="loading">
+  <p>Loading events...</p>
+</div>
+
+<!-- Error Message -->
+<div ng-if="error" class="error-message">
+  <p>{{error}}</p>
+</div>
+
+<!-- Events Table -->
+<div ng-if="!loading && !error" class="events-table-container">
+  <table class="events-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Event Name</th>
+        <th>Category</th>
+        <th>Organization</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Target / Current</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-if="filteredEvents().length === 0">
+        <td colspan="8" class="no-data">No events found</td>
+      </tr>
+      <tr ng-repeat="event in filteredEvents()">
+        <td>{{event.event_id}}</td>
+        <td><strong>{{event.event_name}}</strong></td>
+        <td>{{event.category_name}}</td>
+        <td>{{event.organization_name}}</td>
+        <td>{{formatDate(event.event_date)}}</td>
+        <td>
+          <span class="status-badge" ng-class="event.statusClass">
+            {{event.displayStatus}}
+          </span>
+        </td>
+        <td>
+          {{formatCurrency(event.fund_target)}} / {{formatCurrency(event.current_fund)}}
+        </td>
+        <td class="action-buttons">
+          <button ng-click="editEvent(event.event_id)" class="btn-small btn-edit">Edit</button>
+          <button ng-click="deleteEvent(event)" class="btn-small btn-delete">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+

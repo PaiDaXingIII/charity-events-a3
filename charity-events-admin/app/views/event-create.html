@@ -1,0 +1,147 @@
+<!-- Event Create View - Create new event -->
+<div class="admin-header">
+  <h1>Create New Event</h1>
+</div>
+
+<!-- Error Message -->
+<div ng-if="error" class="error-message">
+  <p>{{error}}</p>
+</div>
+
+<!-- Create Event Form -->
+<div class="event-form-container">
+  <form name="createForm" ng-submit="createEvent()" class="event-form">
+    
+    <div class="form-section">
+      <h3>Basic Information</h3>
+      
+      <div class="form-group">
+        <label for="event_name">Event Name *</label>
+        <input 
+          type="text" 
+          id="event_name" 
+          ng-model="event.event_name" 
+          class="form-control"
+          placeholder="Enter event name"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="event_description">Event Description</label>
+        <textarea 
+          id="event_description" 
+          ng-model="event.event_description" 
+          class="form-control"
+          rows="4"
+          placeholder="Enter event description"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="event_date">Event Date & Time *</label>
+          <input 
+            type="datetime-local" 
+            id="event_date" 
+            ng-model="event.event_date_local" 
+            class="form-control"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label for="category_id">Category *</label>
+          <select 
+            id="category_id" 
+            ng-model="event.category_id" 
+            ng-options="category.category_id as category.category_name for category in categories"
+            class="form-control"
+            required>
+            <option value="">-- Select Category --</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="event_location">Event Location *</label>
+        <input 
+          type="text" 
+          id="event_location" 
+          ng-model="event.event_location" 
+          class="form-control"
+          placeholder="Enter event location"
+          required>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3>Financial Details</h3>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="ticket_price">Ticket Price ($)</label>
+          <input 
+            type="number" 
+            id="ticket_price" 
+            ng-model="event.ticket_price" 
+            class="form-control"
+            min="0"
+            step="0.01"
+            placeholder="0.00">
+        </div>
+
+        <div class="form-group">
+          <label for="fund_target">Fund Target ($) *</label>
+          <input 
+            type="number" 
+            id="fund_target" 
+            ng-model="event.fund_target" 
+            class="form-control"
+            min="1"
+            step="0.01"
+            placeholder="10000.00"
+            required>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3>Additional Settings</h3>
+      
+      <div class="form-group">
+        <label for="organization_id">Organization ID *</label>
+        <input 
+          type="number" 
+          id="organization_id" 
+          ng-model="event.organization_id" 
+          class="form-control"
+          min="1"
+          required>
+        <small>Default: 1 (Community Food Bank)</small>
+      </div>
+
+      <div class="form-group checkbox-group">
+        <label>
+          <input 
+            type="checkbox" 
+            ng-model="event.is_active"
+            ng-true-value="true"
+            ng-false-value="false">
+          Event is Active
+        </label>
+        <small>Inactive events won't appear on the client website</small>
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary btn-large" ng-disabled="submitting">
+        <span ng-if="!submitting">Create Event</span>
+        <span ng-if="submitting">Creating...</span>
+      </button>
+      <button type="button" ng-click="cancel()" class="btn btn-secondary">Cancel</button>
+    </div>
+
+    <p class="form-note">* Required fields</p>
+  </form>
+</div>
+
+

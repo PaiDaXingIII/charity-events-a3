@@ -1,0 +1,81 @@
+<!-- Event Detail Page View - Display event details and registrations -->
+
+<!-- Loading Indicator -->
+<div ng-if="loading" class="loading">
+  <p>Loading event details...</p>
+</div>
+
+<!-- Error Message -->
+<div ng-if="error" class="error-message">
+  <p>{{error}}</p>
+</div>
+
+<!-- Event Detail Content -->
+<div ng-if="!loading && !error && event" class="event-detail">
+  <div class="event-header">
+    <span class="category-badge">{{event.category_name}} | {{event.status}}</span>
+    <h1>{{event.event_name}}</h1>
+  </div>
+
+  <div class="event-info-grid">
+    <!-- Left Column: Event Details -->
+    <div class="event-main-info">
+      <div class="info-section">
+        <h2>Event Details</h2>
+        <p><strong>Date & Time:</strong> {{formatDate(event.event_date)}}</p>
+        <p><strong>Location:</strong> {{event.event_location}}</p>
+        <p><strong>Ticket Price:</strong> {{formatCurrency(event.ticket_price)}}</p>
+        <p><strong>Description:</strong></p>
+        <p>{{event.event_description}}</p>
+      </div>
+
+      <div class="info-section">
+        <h2>Fundraising Progress</h2>
+        <p><strong>Target:</strong> {{formatCurrency(event.fund_target)}}</p>
+        <p><strong>Current Funds:</strong> {{formatCurrency(event.current_fund)}}</p>
+        <div class="progress-bar">
+          <div class="progress-fill" ng-style="{'width': event.progress + '%'}"></div>
+        </div>
+        <p class="progress-text">{{event.progress.toFixed(1)}}% of target reached</p>
+      </div>
+
+      <div class="info-section">
+        <h2>Organized By</h2>
+        <p><strong>{{event.organization_name}}</strong></p>
+        <p>{{event.mission_statement}}</p>
+        <p><strong>Contact:</strong> {{event.contact_email}}</p>
+      </div>
+
+      <!-- Register Button -->
+      <div class="action-buttons">
+        <button ng-click="goToRegister()" class="btn btn-primary btn-large">Register for This Event</button>
+        <a href="#!/home" class="btn btn-secondary">Back to Events</a>
+      </div>
+    </div>
+
+    <!-- Right Column: Registrations List -->
+    <div class="event-registrations">
+      <h2>Event Registrations ({{registrations.length}})</h2>
+      
+      <div ng-if="registrations.length === 0" class="no-registrations">
+        <p>No registrations yet. Be the first to register!</p>
+      </div>
+
+      <div ng-if="registrations.length > 0" class="registrations-list">
+        <div ng-repeat="registration in registrations" class="registration-item">
+          <div class="registration-header">
+            <strong>{{registration.user_name}}</strong>
+            <span class="ticket-count">{{registration.tickets_purchased}} ticket(s)</span>
+          </div>
+          <div class="registration-details">
+            <p><small>{{registration.user_email}}</small></p>
+            <p><small>{{registration.user_phone}}</small></p>
+            <p class="registration-date"><small>Registered: {{formatDate(registration.registration_date)}}</small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

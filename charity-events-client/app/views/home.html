@@ -1,0 +1,41 @@
+<!-- Home Page View - Display upcoming charity events -->
+<section class="about">
+  <h1>About Our Charity Platform</h1>
+  <p>We connect people with meaningful charity events in the city. Join us to make a difference!</p>
+  <h2>Our Mission</h2>
+  <p>To promote social welfare by organizing and supporting charity activities that address community needs.</p>
+  <h2>Contact Us</h2>
+  <p>Email: contact@charityevents.org | Phone: +61-2-1234-5678</p>
+</section>
+
+<section class="upcoming-events">
+  <h2>Upcoming & Current Events</h2>
+
+  <!-- Loading Indicator -->
+  <div ng-if="loading" class="loading">
+    <p>Loading events...</p>
+  </div>
+
+  <!-- Error Message -->
+  <div ng-if="error" class="error-message">
+    <p>{{error}}</p>
+  </div>
+
+  <!-- Events Container -->
+  <div ng-if="!loading && !error" id="events-container">
+    <!-- No Events Message -->
+    <p ng-if="events.length === 0">No upcoming events found.</p>
+
+    <!-- Event Cards -->
+    <div ng-repeat="event in events" class="event-card">
+      <span class="category">{{event.category_name}} | {{event.status}}</span>
+      <h3>{{event.event_name}}</h3>
+      <p><strong>Date:</strong> {{formatDate(event.event_date)}}</p>
+      <p><strong>Location:</strong> {{event.event_location}}</p>
+      <p><strong>Ticket Price:</strong> ${{event.ticket_price}}</p>
+      <a href="#!/event/{{event.event_id}}" class="btn">View Details</a>
+    </div>
+  </div>
+</section>
+
+

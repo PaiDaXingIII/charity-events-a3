@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="adminApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Charity Events - Admin Portal</title>
+  <link rel="stylesheet" href="css/admin-style.css">
+  <!-- AngularJS and AngularJS Route -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="nav-container">
+      <a href="#!/events" class="logo">🔧 Admin Portal</a>
+      <div class="nav-links">
+        <a href="#!/events">All Events</a>
+        <a href="#!/create">Create Event</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content Area - AngularJS Views will be loaded here -->
+  <div class="container">
+    <div ng-view></div>
+  </div>
+
+  <!-- AngularJS Application Files -->
+  <script src="app/app.js?v=3"></script>
+  <script src="app/services/apiService.js?v=3"></script>
+  <script src="app/controllers/eventListController.js?v=3"></script>
+  <script src="app/controllers/eventCreateController.js?v=3"></script>
+  <script src="app/controllers/eventEditController.js?v=3"></script>
+</body>
+</html>
+
+

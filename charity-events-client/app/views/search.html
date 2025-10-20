@@ -1,0 +1,59 @@
+<!-- Search Page View - Search and filter charity events -->
+<h1>Search Charity Events</h1>
+
+<!-- Search Filter Form -->
+<form name="filterForm" ng-submit="searchEvents()" class="filter-form">
+  <div class="form-group">
+    <label for="date">Event Date</label>
+    <input type="date" id="date" ng-model="filters.date" class="form-control">
+  </div>
+
+  <div class="form-group">
+    <label for="location">Location</label>
+    <input type="text" id="location" ng-model="filters.location" placeholder="e.g., Sydney" class="form-control">
+  </div>
+
+  <div class="form-group">
+    <label for="category">Category</label>
+    <select id="category" ng-model="filters.categoryId" class="form-control">
+      <option value="">All Categories</option>
+      <option ng-repeat="category in categories" value="{{category.category_id}}">
+        {{category.category_name}}
+      </option>
+    </select>
+  </div>
+
+  <button type="submit" class="btn">Search</button>
+  <button type="button" ng-click="clearFilters()" class="btn btn-secondary">Clear Filters</button>
+</form>
+
+<!-- Loading Indicator -->
+<div ng-if="loading" class="loading">
+  <p>Searching...</p>
+</div>
+
+<!-- Error Message -->
+<div ng-if="error" class="error-message">
+  <p>{{error}}</p>
+</div>
+
+<!-- Search Results -->
+<div ng-if="searched && !loading" id="results-container">
+  <h2>Search Results ({{events.length}} events found)</h2>
+
+  <!-- No Results Message -->
+  <p ng-if="events.length === 0">No events found matching your criteria. Try different filters.</p>
+
+  <!-- Event Cards -->
+  <div ng-repeat="event in events" class="event-card">
+    <span class="category">{{event.category_name}} | {{event.status}}</span>
+    <h3>{{event.event_name}}</h3>
+    <p><strong>Date:</strong> {{formatDate(event.event_date)}}</p>
+    <p><strong>Location:</strong> {{event.event_location}}</p>
+    <p><strong>Organization:</strong> {{event.organization_name}}</p>
+    <p><strong>Ticket Price:</strong> ${{event.ticket_price}}</p>
+    <a href="#!/event/{{event.event_id}}" class="btn">View Details</a>
+  </div>
+</div>
+
+
